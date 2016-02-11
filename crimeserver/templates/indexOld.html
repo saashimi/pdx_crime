@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Portland Data</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- Bootstrap -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet" media="screen">
+
+    <!-- Step 1. Add CSS for the mapping components -->
+    <link rel="stylesheet" type="text/css" href="//js.arcgis.com/3.13/esri/css/esri.css">   
+    <link rel="stylesheet" type="text/css" href="http://esri.github.io/bootstrap-map-js/src/css/bootstrapmap.css">   
+    <style type="text/css">
+      #mapDiv {
+        min-height: 100%;
+        min-width: 100%; 
+      }
+    </style>
+
+    <!-- HTML5 IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="../assets/js/html5shiv.js"></script>
+      <script src="../assets/js/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    
+
+    <!-- Step 2. Add HTML to define the layout of the page and the map -->
+    <div class="container">
+      <div id="mapDiv"></div>
+    </div>
+    
+    <!-- Step 3. Add JS to load the responsive map -->
+    <script type="text/javascript">
+        var package_path = "//esri.github.com/bootstrap-map-js/src/js";
+        var dojoConfig = {
+            packages: [{
+                name: "application",
+                location: package_path
+            }]
+        };
+    </script>
+    <script src="//js.arcgis.com/3.13compact"></script>
+    <script>
+        require([
+          "esri/map", 
+          "application/bootstrapmap", 
+          "dojo/domReady!"
+          ], function(Map, BootstrapMap) {
+            // Get a reference to the ArcGIS Map class
+            var PORTLAND = [-122.68, 45.52];
+            var map = BootstrapMap.create("mapDiv",{
+              basemap:"national-geographic",
+              center: PORTLAND,
+              zoom:12
+            });
+        });
+    </script>
+
+    <!-- jQuery (for Bootstrap's JavaScript plugins) -->
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <!-- Include all  plugins or individual files as needed -->
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+  </body>
+</html>
