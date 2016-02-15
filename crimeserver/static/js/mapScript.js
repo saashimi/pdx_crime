@@ -1,21 +1,3 @@
-var homicideImage = new ol.style.Circle({
-    radius: 8,
-    fillColor: 'red', //KS why isn't this working?
-    stroke: new ol.style.Stroke({
-        color: 'red', 
-        width:4
-    })
-});
-
-var DUIIImage = new ol.style.Circle({
-    radius: 2,
-    fillColor: 'green', //KS why isn't this working?
-    stroke: new ol.style.Stroke({
-        color: 'green', 
-        width:2
-    })
-});
-
 var styles = {
     'DUII' : new ol.style.Style({
       image: DUIIImage
@@ -29,10 +11,6 @@ var styleFunction = function(checkboxID) {
     return styles[checkboxID];
 };
 
-//var styleFunction = function(feature) {
-//    return styles[feature.getGeometry().getType()];
-//};
-
 function loadGeoJSON(checkboxID) {
   //input is an array of params
   serviceURL = 'http://localhost:8000/crimeserver/';
@@ -41,7 +19,7 @@ function loadGeoJSON(checkboxID) {
   offenseID = '&offense=' + checkboxID;
 
   var vectorLayer = new ol.layer.Vector({
-    title: checkboxID + ' Layer',
+    name: checkboxID,
     source: new ol.source.Vector({
         projection: 'EPSG:3857',
         url: serviceURL + database + trailer + offenseID,
@@ -50,17 +28,15 @@ function loadGeoJSON(checkboxID) {
     style: styleFunction(checkboxID)
   }); 
   map.addLayer(vectorLayer);
+  console.log(vectorLayer);
 };
 
 function removeLayer(checkboxID) {
-  //something
+  map.removeLayer(vectorLayer);
 }
-
-// Emulating ESRI REST framework source
 
 var map = new ol.Map({
     target: 'map',
-    renderer: 'canvas', //KS force canvas. Might not be necessry.
     layers: [
       new ol.layer.Tile({
           source: new ol.source.Stamen({
@@ -77,14 +53,17 @@ var map = new ol.Map({
 });
 
 $(document).ready(function() {
+  // Checkbox event listener
   $(":checkbox").click(function() {
     var $this = $(this);
     var checkID = $this.attr('id');
     if ($this.is(':checked')) {
       loadGeoJSON(checkID);  
     } else {
-      console.log('unchecked fired!', checkID);
-      // Remove call remove layer function here
+      map.getLayers().forEach(function(layer){
+        if (layer.get('name') === checkID)
+          layer.setVisible(checkID.checked);
+      })
     } 
   });
 }); 
