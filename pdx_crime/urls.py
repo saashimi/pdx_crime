@@ -20,6 +20,7 @@ from rest_framework import routers
 
 router = routers.DefaultRouter(trailing_slash=False)
 router.register(r'Crime2014', crimeserver_views.Crime2014DataViewSet)
+router.register(r'Crime2013', crimeserver_views.Crime2013DataViewSet)
 
 
 urlpatterns = [
