@@ -124,6 +124,11 @@ var map = new ol.Map({
     })
 });
 
+var popup = new ol.Overlay({
+  element: document.getElementById('popup')
+});
+map.addOverlay(popup);
+
 $(document).ready(function() {
   // Checkbox event listener
   $(":checkbox").click(function() {
@@ -138,6 +143,23 @@ $(document).ready(function() {
           layer.setVisible(checkID.checked);
       })
     } 
+  });
+  // KS popup addition
+  map.on('click', function(evt) {
+    var element = popup.getElement();
+    coordinate = evt.coordinate;
+    var test = 'test popup!';  
+  
+    $(element).popover('destroy');
+    popup.setPosition(coordinate)
+    // the keys ae quoted to prevent renaming in ADVANCED MODE
+    $(element).popover({
+      'placement': 'top',
+      'animation': false,
+      'html': true,
+      'content': test
+    });
+    $(element).popover('show');
   });
 }); 
 
