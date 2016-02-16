@@ -200,3 +200,84 @@ var weaponsImage = new ol.style.RegularShape({
     radius2: 0,
     angle: Math.PI / 4
 });
+
+var styles = {
+    'Aggravated Assault' : new ol.style.Style({
+      image: aggravatedAssaultImage
+    }),
+    'Arson' : new ol.style.Style({
+      image: arsonImage
+    }),
+    'Assault, Simple' : new ol.style.Style({
+      image: simpleAssaultImage
+    }),
+    'Burglary' : new ol.style.Style({
+      image: burglaryImage
+    }),
+    'Curfew' : new ol.style.Style({
+      image: curfewImage
+    }),
+    'Disorderly Conduct' : new ol.style.Style({
+      image: disorderlyConductImage            
+    }),
+    'Drugs' : new ol.style.Style({
+      image: drugsImage            
+    }),    
+    'DUII' : new ol.style.Style({
+      image: DUIIImage
+    }),
+    'Embezzlement' : new ol.style.Style({
+      image: embezzlementImage            
+    }),
+    'Forgery' : new ol.style.Style({
+      image: forgeryImage            
+    }),
+    'Fraud' : new ol.style.Style({
+      image: fraudImage            
+    }),
+    'Homicide': new ol.style.Style({
+      image: homicideImage
+    }),
+    'Kidnap' : new ol.style.Style({
+      image: kidnapImage            
+    }),
+    'Larceny' : new ol.style.Style({
+      image: larcenyImage            
+    }),
+    'Liquor Laws' : new ol.style.Style({
+      image: liquorLawsImage            
+    }),
+    'Motor Vehicle Theft' : new ol.style.Style({
+      image: motorVehicleTheftImage            
+    }),
+    'Offenses Against Family' : new ol.style.Style({
+      image: offensesAgainstFamilyImage            
+    }),    
+    'Prostitution' : new ol.style.Style({
+      image: disorderlyConductImage            
+    }),
+    'Rape' : new ol.style.Style({
+      image: rapeImage            
+    }),
+    'Robbery' : new ol.style.Style({
+      image: robberyImage            
+    }),    
+    'Runaway' : new ol.style.Style({
+      image: runawayImage            
+    }),    
+    'Sex Offenses' : new ol.style.Style({
+      image: sexOffensesImage            
+    }),
+    'Stolen Property' : new ol.style.Style({
+      image: stolenPropertyImage            
+    }),
+    'Tresspass' : new ol.style.Style({
+      image: tresspassImage            
+    }),
+    'Vandalism' : new ol.style.Style({
+      image: vandalismImage            
+    }),
+    'Weapons' : new ol.style.Style({
+      image: weaponsImage            
+    }),
+};

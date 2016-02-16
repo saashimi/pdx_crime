@@ -1,90 +1,9 @@
-var styles = {
-    'Aggravated Assault' : new ol.style.Style({
-      image: aggravatedAssaultImage
-    }),
-    'Arson' : new ol.style.Style({
-      image: arsonImage
-    }),
-    'Assault, Simple' : new ol.style.Style({
-      image: simpleAssaultImage
-    }),
-    'Burglary' : new ol.style.Style({
-      image: burglaryImage
-    }),
-    'Curfew' : new ol.style.Style({
-      image: curfewImage
-    }),
-    'Disorderly Conduct' : new ol.style.Style({
-      image: disorderlyConductImage            
-    }),
-    'Drugs' : new ol.style.Style({
-      image: drugsImage            
-    }),    
-    'DUII' : new ol.style.Style({
-      image: DUIIImage
-    }),
-    'Embezzlement' : new ol.style.Style({
-      image: embezzlementImage            
-    }),
-    'Forgery' : new ol.style.Style({
-      image: forgeryImage            
-    }),
-    'Fraud' : new ol.style.Style({
-      image: fraudImage            
-    }),
-    'Homicide': new ol.style.Style({
-      image: homicideImage
-    }),
-    'Kidnap' : new ol.style.Style({
-      image: kidnapImage            
-    }),
-    'Larceny' : new ol.style.Style({
-      image: larcenyImage            
-    }),
-    'Liquor Laws' : new ol.style.Style({
-      image: liquorLawsImage            
-    }),
-    'Motor Vehicle Theft' : new ol.style.Style({
-      image: motorVehicleTheftImage            
-    }),
-    'Offenses Against Family' : new ol.style.Style({
-      image: offensesAgainstFamilyImage            
-    }),    
-    'Prostitution' : new ol.style.Style({
-      image: disorderlyConductImage            
-    }),
-    'Rape' : new ol.style.Style({
-      image: rapeImage            
-    }),
-    'Robbery' : new ol.style.Style({
-      image: robberyImage            
-    }),    
-    'Runaway' : new ol.style.Style({
-      image: runawayImage            
-    }),    
-    'Sex Offenses' : new ol.style.Style({
-      image: sexOffensesImage            
-    }),
-    'Stolen Property' : new ol.style.Style({
-      image: stolenPropertyImage            
-    }),
-    'Tresspass' : new ol.style.Style({
-      image: tresspassImage            
-    }),
-    'Vandalism' : new ol.style.Style({
-      image: vandalismImage            
-    }),
-    'Weapons' : new ol.style.Style({
-      image: weaponsImage            
-    }),
-};
-
 var styleFunction = function(checkboxID) {
     return styles[checkboxID];
 };
 
+// Dude this is genuine KS brainpower or something.
 function loadGeoJSON(checkboxID) {
-  //input is an array of params
   serviceURL = 'http://localhost:8000/crimeserver/';
   database = 'Crime2014'; // KS TODO: Differentiate by dropdown once we populate the DB.
   trailer = '?format=json';
@@ -124,8 +43,11 @@ var map = new ol.Map({
     })
 });
 
+var element = document.getElementById('popup');
+
 var popup = new ol.Overlay({
-  element: document.getElementById('popup')
+  element: element,
+  stopEvent: false
 });
 map.addOverlay(popup);
 
@@ -144,25 +66,30 @@ $(document).ready(function() {
       })
     } 
   });
-  // KS popup addition
+  // KS popup addition. It's all copypasta, alas.
   map.on('click', function(evt) {
-    var element = popup.getElement();
-    coordinate = evt.coordinate;
-    var test = 'test popup!';  
-  
-    $(element).popover('destroy');
-    popup.setPosition(coordinate)
-    // the keys ae quoted to prevent renaming in ADVANCED MODE
-    $(element).popover({
-      'placement': 'top',
-      'animation': false,
-      'html': true,
-      'content': test
-    });
-    $(element).popover('show');
+    // copypasta from https://github.com/openlayers/ol3/blob/v3.0.0-gamma.1/examples/icon.js#L65-L84
+    var feature = map.forEachFeatureAtPixel(evt.pixel,
+        function(feature, layer) {
+          return feature;
+        });
+    if (feature) {
+      var geometry = feature.getGeometry();
+      var coord = geometry.getCoordinates();
+      popup.setPosition(coord);
+      $(element).popover({
+        'placement': 'top',
+        'html': true,
+        'content': ('<p>' + feature.get('offense') + '</p>' +
+                    '<p>' + feature.get('date') + '</p>' +
+                    '<p>' + feature.get('time') + '</p>')
+      });
+      $(element).popover('show');
+    } else {
+      $(element).popover('destroy');
+    }
   });
-}); 
-
+});
 
 // Copypasta from http://stackoverflow.com/questions/14925913/how-can-i-set-up-openlayers-to-use-backbone-js
 // In Backbone, the View is the mediator between a model and a piece of the DOM.
