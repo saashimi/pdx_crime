@@ -96,6 +96,11 @@ $(document).ready(function() {
     console.log(dbToUse)
     loadGeoJSON(dbToUse);
   });
+  // Menu toggling function
+  $("#menu-toggle").click(function(e) {
+    e.preventDefault();
+    $("#wrapper").toggleClass("toggled");
+  });
 
 });
 
