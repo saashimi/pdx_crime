@@ -1,3 +1,6 @@
+//----Global functions--------------------------------------------------------//
+var dbToUse; // Necessary for database selection.
+
 var styleFunction = function(checkboxID) {
     return styles[checkboxID];
 };
@@ -5,7 +8,7 @@ var styleFunction = function(checkboxID) {
 // Dude this is genuine KS brainpower or something.
 function loadGeoJSON(checkboxID) {
   serviceURL = 'http://localhost:8000/crimeserver/';
-  database = 'Crime2014'; // KS TODO: Differentiate by dropdown once we populate the DB.
+  database = dbToUse; 
   trailer = '?format=json';
   offenseID = '&offense=' + checkboxID;
 
@@ -19,7 +22,6 @@ function loadGeoJSON(checkboxID) {
     style: styleFunction(checkboxID)
   }); 
   map.addLayer(vectorLayer);
-  console.log(vectorLayer);
 };
 
 function removeLayer(checkboxID) {
@@ -89,6 +91,12 @@ $(document).ready(function() {
       $(element).popover('destroy');
     }
   });
+  $('#dataset').change(function() {
+    dbToUse = $(this).val();
+    console.log(dbToUse)
+    loadGeoJSON(dbToUse);
+  });
+
 });
 
 // Copypasta from http://stackoverflow.com/questions/14925913/how-can-i-set-up-openlayers-to-use-backbone-js
