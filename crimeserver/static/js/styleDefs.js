@@ -7,7 +7,7 @@ var aggravatedAssaultImage = new ol.style.Circle({
 });
 
 var arsonImage = new ol.style.Circle({
-    radius: 3,
+    radius: 4,
     fill: new ol.style.Fill({
         color: '#dc702a'
     })
@@ -35,7 +35,7 @@ var burglaryImage = new ol.style.RegularShape({
 });
 
 var curfewImage = new ol.style.Circle({
-    radius: 3,
+    radius: 6,
     fill: new ol.style.Fill({
         color: '#52361f'
     })
@@ -63,7 +63,7 @@ var DUIIImage = new ol.style.Circle({
 });
 
 var embezzlementImage = new ol.style.Circle({
-    radius: 3,
+    radius: 4,
     fill: new ol.style.Fill({
         color: '#797f8b'
     })    
@@ -93,52 +93,55 @@ var homicideImage = new ol.style.Circle({
     })
 });
 
-var kidnapImage = new ol.style.Circle({
-    radius: 3,
+var kidnapImage = new ol.style.RegularShape({
     fill: new ol.style.Fill({
         color: '#f4dd2c'
-    })
+    }),
+    points: 4,
+    radius: 6,
+    angle: Math.PI / 4
 });
 
 var larcenyImage = new ol.style.Circle({
-    radius: 3,
+    radius: 2,
     fill: new ol.style.Fill({
-        color: 'green'
+        color: 'purple'
     })
 });
 
 var liquorLawsImage = new ol.style.Circle({
     radius: 3,
     fill: new ol.style.Fill({
-        color: 'green'
+        color: 'orange'
     })
 });
 
 var motorVehicleTheftImage = new ol.style.Circle({
-    radius: 3,
+    radius: 2,
     fill: new ol.style.Fill({
-        color: 'green'
+        color: 'blue'
     })
 });
 
 var offensesAgainstFamilyImage = new ol.style.Circle({
-    radius: 3,
+    radius: 5,
     fill: new ol.style.Fill({
-        color: 'green'
+        color: 'brown'
     })
 });
 
 var prostitutionImage = new ol.style.Circle({
-    radius: 3,
+    radius: 5,
     fill: new ol.style.Fill({
-        color: 'green'
+        color: '#0083cb'
     })
 });
 
 var rapeImage = new ol.style.Circle({
-    radius: 3,
-    fill: new ol.style.Fill({
-        color: 'green'
+    radius: 6,
+    stroke: new ol.style.Stroke({
+        color: '#c087e9', 
+        width:4
     })
 });
 
@@ -150,40 +153,42 @@ var robberyImage = new ol.style.Circle({
     })
 });
 
-var runawayImage = new ol.style.Circle({
-    radius: 3,
+var runawayImage = new ol.style.RegularShape({
     fill: new ol.style.Fill({
-        color: 'green'
-    })
-});
+        color: '#00cb6e'
+    }),
+    points: 4,
+    radius: 6,
+    angle: Math.PI / 4
+})
 
 var sexOffensesImage = new ol.style.RegularShape({
     fill: new ol.style.Fill({
         color: '#92a8d1'
     }),
     points: 4,
-    radius: 4,
+    radius: 6,
     angle: Math.PI / 4
 })
 
 var stolenPropertyImage = new ol.style.Circle({
-    radius: 3,
+    radius: 4,
     fill: new ol.style.Fill({
-        color: 'green'
+        color: '#f1825f'
     })
 });
 
 var tresspassImage = new ol.style.Circle({
-    radius: 3,
+    radius: 2,
     fill: new ol.style.Fill({
-        color: 'green'
+        color: '#00accb'
     })
 });
 
 var vandalismImage = new ol.style.Circle({
-    radius: 3,
+    radius: 2,
     fill: new ol.style.Fill({
-        color: 'green'
+        color: '#fabc02'
     })
 });
 
@@ -254,7 +259,7 @@ var styles = {
       image: offensesAgainstFamilyImage            
     }),    
     'Prostitution' : new ol.style.Style({
-      image: disorderlyConductImage            
+      image: prostitutionImage            
     }),
     'Rape' : new ol.style.Style({
       image: rapeImage            
