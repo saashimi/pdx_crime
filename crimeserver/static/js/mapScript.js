@@ -1,6 +1,7 @@
 //----Global functions--------------------------------------------------------//
 var dbToUse; // Necessary for database selection.
 
+//----Functions---------------------------------------------------------------//
 var styleFunction = function(checkboxID) {
     return styles[checkboxID];
 };
@@ -32,8 +33,9 @@ var map = new ol.Map({
     target: 'map',
     layers: [
       new ol.layer.Tile({
+          name: 'main',
           source: new ol.source.Stamen({
-              layer: 'toner'
+              layer: 'toner-lite'
           })
       }),
     ],
@@ -54,8 +56,9 @@ var popup = new ol.Overlay({
 map.addOverlay(popup);
 
 $(document).ready(function() {
-  // Checkbox event listener
-  $(":checkbox").click(function() {
+  //----Event Listeners---------------------------------------------------------//
+  //----Checkbox event listener----//
+  $(":checkbox").change(function() {
     var $this = $(this);
     var checkID = $this.attr('id');
     if ($this.is(':checked')) {
@@ -70,6 +73,7 @@ $(document).ready(function() {
   });
   // KS popup addition. It's all copypasta, alas.
   map.on('click', function(evt) {
+    //----Popover Generator----//
     // copypasta from https://github.com/openlayers/ol3/blob/v3.0.0-gamma.1/examples/icon.js#L65-L84
     var feature = map.forEachFeatureAtPixel(evt.pixel,
         function(feature, layer) {
@@ -91,31 +95,42 @@ $(document).ready(function() {
       $(element).popover('destroy');
     }
   });
+  //----Database Selector----//
   $('#dataset').change(function() {
     dbToUse = $(this).val();
     console.log(dbToUse)
     loadGeoJSON(dbToUse);
   });
-  // Menu toggling function
-  $("#menu-toggle").click(function(e) {
-    e.preventDefault();
+  //----Menu Flyout----//
+  $("#menu-toggle").click(function(evt) {
+    evt.preventDefault();
     $("#wrapper").toggleClass("toggled");
   });
-
+  //----Botched 404 Identifer----//
+  window.addEventListener('error', function(evt){
+    alert('You must select a dataset from the dropdown!');
+  }, true);
+  //---Violent Crime Mapper----//
+  //KS: TODO: THERE SHOULD BE A LESS HACKY WAY TO DO THIS.
+  $('#violence').click(function() {
+    $(':checkbox').prop('checked', false);
+    $("[id='Aggravated Assault']").prop('checked', true);
+    loadGeoJSON('Aggravated Assault');
+    $('#Homicide').prop('checked', true);
+    loadGeoJSON('Homicide');
+    $('#Rape').prop('checked', true);
+    loadGeoJSON('Rape')
+    $('#Robbery').prop('checked', true);
+    loadGeoJSON('Robbery');
+  });
+  //----Clear all selections----/
+  //KS: HACK ALERT
+  $('#clear').click(function(){
+    $(':checkbox').prop('checked', false);
+    map.getLayers().forEach(function(layer){
+      if (layer.get('name') !== 'main') {
+        layer.setVisible(false);
+      }
+    });
+  });
 });
-
-// Copypasta from http://stackoverflow.com/questions/14925913/how-can-i-set-up-openlayers-to-use-backbone-js
-// In Backbone, the View is the mediator between a model and a piece of the DOM.
-// In OpenLayers, instead of a piece of the DOM, we have an OpenLayers Feature, 
-// Vector, Marker, Popup, Whatever. We could recreate this special relationsip
-// between the View and its OpenLayers object. The view listenting to model changes
-// and updating the OpenLayers object comes naturally. What about listening and
-// responding to events on the OpenLayers object?
-
-/*
-Now for structuring your Views. I tend to think of an OpenLayers Layer as a 
-collection of items. Let's say you want to render a collection of features. You 
-might create a FeatureCollectionView class that is initialized with a Map object.
-It would then create a Layer for its collection. */
-
-

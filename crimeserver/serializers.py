@@ -1,5 +1,5 @@
 from rest_framework_gis.serializers import GeoFeatureModelSerializer
-from .models import Crime2014, Crime2013
+from .models import Crime2014, Crime2013, Crime2012
 
 """
 Serializes geospatial fields from models into GeoJSON data.
@@ -17,3 +17,7 @@ class Crime2014DataSerializer(CrimeDataSerializer):
 class Crime2013DataSerializer(CrimeDataSerializer):
     class Meta(CrimeDataSerializer.Meta):        
         model = Crime2013
+
+class Crime2012DataSerializer(CrimeDataSerializer):
+    class Meta(CrimeDataSerializer.Meta):        
+        model = Crime2012
