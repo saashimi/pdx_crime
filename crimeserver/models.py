@@ -29,5 +29,8 @@ class Crime2013(CrimeModelTemplate):
 class Crime2012(CrimeModelTemplate):
     """We're inheriting the whole abstract base class."""
 
+class Crime2011(CrimeModelTemplate):
+    """We're inheriting the whole abstract base class."""
 
-
+class Crime2010(CrimeModelTemplate):
+    """We're inheriting the whole abstract base class."""

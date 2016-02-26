@@ -55,10 +55,11 @@ var popup = new ol.Overlay({
 });
 map.addOverlay(popup);
 
+//----Event Listeners---------------------------------------------------------//
 $(document).ready(function() {
-  //----Event Listeners---------------------------------------------------------//
   //----Checkbox event listener----//
   $(":checkbox").change(function() {
+    $(".loader").fadeOut("slow");
     var $this = $(this);
     var checkID = $this.attr('id');
     if ($this.is(':checked')) {
@@ -71,6 +72,7 @@ $(document).ready(function() {
       })
     } 
   });
+
   // KS popup addition. It's all copypasta, alas.
   map.on('click', function(evt) {
     //----Popover Generator----//
@@ -95,24 +97,29 @@ $(document).ready(function() {
       $(element).popover('destroy');
     }
   });
+  
   //----Database Selector----//
   $('#dataset').change(function() {
     dbToUse = $(this).val();
     console.log(dbToUse)
     loadGeoJSON(dbToUse);
   });
+  
   //----Menu Flyout----//
   $("#menu-toggle").click(function(evt) {
     evt.preventDefault();
     $("#wrapper").toggleClass("toggled");
   });
+  
   //----Botched 404 Identifer----//
   window.addEventListener('error', function(evt){
     alert('You must select a dataset from the dropdown!');
   }, true);
+  
   //---Violent Crime Mapper----//
   //KS: TODO: THERE SHOULD BE A LESS HACKY WAY TO DO THIS.
   $('#violence').click(function() {
+    $(".loader").fadeOut("slow");
     $(':checkbox').prop('checked', false);
     $("[id='Aggravated Assault']").prop('checked', true);
     loadGeoJSON('Aggravated Assault');
@@ -123,6 +130,7 @@ $(document).ready(function() {
     $('#Robbery').prop('checked', true);
     loadGeoJSON('Robbery');
   });
+  
   //----Clear all selections----/
   //KS: HACK ALERT
   $('#clear').click(function(){
