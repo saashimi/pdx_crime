@@ -1,0 +1,5 @@
+Things learned:
+
+Start with a simple bootstrap template when learning Openlayers.
+
+Views/Map object still a bit esoteric.

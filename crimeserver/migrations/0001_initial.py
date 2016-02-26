@@ -12,9 +12,9 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Crime2014',
+            name='Crime2013',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', auto_created=True, primary_key=True, serialize=False)),
+                ('id', models.AutoField(primary_key=True, auto_created=True, verbose_name='ID', serialize=False)),
                 ('recordid', models.IntegerField()),
                 ('date', models.CharField(max_length=254)),
                 ('time', models.CharField(max_length=254)),
@@ -25,7 +25,30 @@ class Migration(migrations.Migration):
                 ('pddistrict', models.CharField(max_length=254)),
                 ('x_coord', models.FloatField()),
                 ('y_coord', models.FloatField()),
-                ('geom', django.contrib.gis.db.models.fields.PointField(srid=4236)),
+                ('geom', django.contrib.gis.db.models.fields.PointField(srid=4326)),
             ],
+            options={
+                'abstract': False,
+            },
+        ),
+        migrations.CreateModel(
+            name='Crime2014',
+            fields=[
+                ('id', models.AutoField(primary_key=True, auto_created=True, verbose_name='ID', serialize=False)),
+                ('recordid', models.IntegerField()),
+                ('date', models.CharField(max_length=254)),
+                ('time', models.CharField(max_length=254)),
+                ('offense', models.CharField(max_length=254)),
+                ('address', models.CharField(max_length=254)),
+                ('neighborhd', models.CharField(max_length=254)),
+                ('pdprecinct', models.CharField(max_length=254)),
+                ('pddistrict', models.CharField(max_length=254)),
+                ('x_coord', models.FloatField()),
+                ('y_coord', models.FloatField()),
+                ('geom', django.contrib.gis.db.models.fields.PointField(srid=4326)),
+            ],
+            options={
+                'abstract': False,
+            },
         ),
     ]
