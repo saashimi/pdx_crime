@@ -12,9 +12,9 @@
 $(function(){
 
     var Models = Backbone.Model.extend({
-        urlRoot: '/crimeserver/';
-        trailer = '?format=json';
-        offenseID = '&offense=' + checkboxID;
+        urlRoot: '/crimeserver/',
+        trailer: '?format=json',
+        offenseID: '&offense=' + checkboxID
     })
 
     var MapView = Backbone.View.extend({
