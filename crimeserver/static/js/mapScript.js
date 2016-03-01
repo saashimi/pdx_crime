@@ -8,7 +8,7 @@ var styleFunction = function(checkboxID) {
 
 // Dude this is genuine KS brainpower or something.
 function loadGeoJSON(checkboxID) {
-  serviceURL = 'http://localhost:8000/crimeserver/';
+  serviceURL = '/crimeserver/';
   database = dbToUse; 
   trailer = '?format=json';
   offenseID = '&offense=' + checkboxID;
