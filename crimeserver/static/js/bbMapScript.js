@@ -1,23 +1,28 @@
-//----Instances----//
-//var mainApp;
-//mainApp = {};
-// mainApp.layer = new ol.layer(); // TODO: check proper OL3 syntax
-//mainApp.mapView = null;
-
-
-// Think of a layer as a collection of items. FeatureCollectionView class is 
-// initialized with a Map object.
-// KS: Here's the opportunity to feed in all our arguments in the wrapper)
-
 $(function(){
 
-    var Models = Backbone.Model.extend({
+    var Model = Backbone.Model.extend({
         urlRoot: '/crimeserver/',
+        dbToUse: null,
         trailer: '?format=json',
-        offenseID: '&offense=' + checkboxID
+        offenseID: '&offense=', 
+        checkboxID: null, 
+        initialize: function() {
+            var completeURL = (this.urlRoot + this.trailer + this.offenseID +
+                               this.checkboxID);
+            console.log(completeURL);
+            this.listenTo(this.model, )
+        },
+        updateCheckboxID: function() {
+            //this.
+        },
+        updateDB: function() {
+            // TODO: Update Selected Database
+        }
+
     })
 
     var MapView = Backbone.View.extend({
+        // KS: This is the background map to render.
         
         render: function() {
             this.map = this.loadMap()
@@ -45,14 +50,45 @@ $(function(){
         }
     });
 
-    var LayerView = Backbone.View.extend({
+    //----The Application----//
+    var AppView = Backbone.View.extend({
+        el: $('#page-content-wrapper'), // Formerly '#map'
 
+        events: {
+            'click #menu-toggle' : 'menuToggle',
+            'change #dataset'    : 'dbSelect', // This might not work.
+        },
+
+        initialize: function() {
+            // TODO Stuff goes here!
+        },
+
+        menuToggle: function(evt) {
+            // Toggles the flyout menu.
+            evt.preventDefault();
+            $("#wrapper").toggleClass("toggled");
+        },
+
+        dbSelect: function() {
+            // Updates the Model per database selection.
+            dbToUse = this.$('#dataset').val();
+            console.log(dbToUse)
+            //loadGeoJSON(dbToUse);
+        },
+
+        render: function() { 
+            // KS: is this redundant to have in AppView? MapView already renders
+            // this...
+            var map = new MapView();
+            map.render()
+        }
 
     })
 
-
-    //----The Application----//
-    var map = new MapView();
-    map.render();
+    //----Initialize----//
+    var App = new AppView();
+    App.render();
+    var activeModel = new Model();
+    var dbToUse;
 
 }); // End JQuery Wrapper
