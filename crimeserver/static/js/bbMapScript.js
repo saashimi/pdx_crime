@@ -3,33 +3,24 @@
     var Model = Backbone.Model.extend({
         // KS: Consider wrapping this as a default object?
         urlRoot: '/crimeserver/',
-        selectedDB: null,
+        //selectedDB: null, TODO: FIX THIS. HACKY
         trailer: '?format=json',
         offenseID: '&offense=', 
         checkboxID: null, 
 
         initialize: function() {
             // Is anything necessary here? 
-            this.listenTo
+            console.log("we've initialized.");
+            this.listenTo(this, 'change:checkboxID', this.returnFullURL);
         },
 
         returnFullURL: function() {
-            complete = (this.urlRoot + this.selectedDB + this.trailer + 
-                this.offenseID + this.checkboxID);
+            var complete = (this.urlRoot + dbToUse + this.trailer + 
+                this.offenseID + this.changed['checkboxID']);
             console.log(complete);
             return complete;
 
         },
-
-        /*updateCheckboxID: function() {
-            //this.
-        },*/
-        
-        /*updateDB: function() {
-            console.log(this.selectedDB);
-            //return this.set({'selectedDB' : dbToUse});
-            this.selectedDB = dbToUse;
-        },*/
 
     })
 
@@ -42,9 +33,7 @@
             };
         },
         initialize: function() {
-            this.listenTo(AppView.events,  this.updateURLRoot ) // KS: Watch this for instancing errors.
-            // The advantage to listenTo is that it allows the object to keep track
-            // of the events
+            this.listenTo(activeModel, 'change:selectedDB', activeModel.returnFullURL ) // KS: Watch this for instancing errors.
         }
     })
 
@@ -83,13 +72,29 @@
 
         events: {
             'change :checkbox'  : 'checkboxSelect',
-        },
+        },       
         
         checkboxSelect: function() {
-            activeModel.checkboxID = this.$(':checkbox').filter(':checked').attr('id');
-            console.log(activeModel.checkboxID); 
-        }       
+            var checkID = this.$(':checkbox').filter(':checked');
+            
+            if (checkID.length > 1) {
+                console.log("we're in the first condition!");
+                console.log(checkID[-1].attr('id'));
+                activeModel.set({checkboxID : checkID[-1].attr('id')});
+            } else {
+                console.log("we're in the second condition!");
+                console.log(checkID.attr('id'));
+                activeModel.set({checkboxID : checkID.attr('id')});
 
+            }
+
+            //} else {
+            //    console.log("we're in the second condition!");
+            //  } 
+            //activeModel.set({checkboxID : this.$(':checkbox').filter(':checked').attr('id')});
+            //activeModel.checkboxID = this.$(':checkbox').filter(':checked').attr('id')
+            //console.log(activeModel.checkboxID); 
+        },
     })
 
     //----The Application----//
@@ -97,8 +102,8 @@
         el: $('#page-content-wrapper'), // Formerly '#map'
 
         events: {
-            'click #menu-toggle'            : 'menuToggle',
-            'change #dataset'               : 'dbSelect', 
+            'click #menu-toggle' : 'menuToggle',
+            'change #dataset'    : 'dbSelect', 
         },
 
         initialize: function() {
@@ -112,8 +117,8 @@
         },
 
         dbSelect: function() {
-            // Updates the Model per database selection.
-            activeModel.selectedDB = this.$('#dataset').val();
+            // HACK database selection.
+            dbToUse = this.$('#dataset').val();
         },
 
         render: function() { 
@@ -128,7 +133,9 @@
     //----Initialize----//
     var App = new AppView();
     App.render();
-    var Crime = new CrimeView();
+    var dbToUse; // HACK GLOBAL VARIABLE ALERT
+    var Crime = new CrimeView(); // Checkbox doesn't work unless it's in a new view.
     var activeModel = new Model();
+    //var activeLayer = new Layer();
 
 //}); // End JQuery Wrapper
